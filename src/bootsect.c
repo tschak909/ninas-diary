@@ -26,7 +26,6 @@ const unsigned char bootsect[128] =
 void bootsect_write(unsigned char drive_num)
 {
   struct regs r;
-  unsigned char i;
 
   // Write boot sectors to disk
   OS.dcb.ddevic=0x30; // Disk drive

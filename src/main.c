@@ -10,6 +10,7 @@
 #include "ui.h"
 
 unsigned char running=1;
+unsigned char buf[128];
 
 void main(void)
 {
