@@ -9,10 +9,17 @@
 
 #include "ui.h"
 
+unsigned char running=1;
+
 void main(void)
 {
   ui_setup();
+
+  __asm__("jsr $E450");
   
-  for (;;)
+  while (running)
     ui_run();
+
+  __asm__("jsr $e477");
+
 }
