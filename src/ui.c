@@ -14,6 +14,7 @@
 #include "ui.h"
 #include "charset.h"
 #include "format.h"
+#include "bootsect.h"
 
 static unsigned char* dlist_ptr;
 static unsigned char* video_ptr;
@@ -97,6 +98,7 @@ void ui_format(void)
     {
       print_string(0,10,"Formatting Disk...");
       format_disk(1);
+      bootsect_write(1);
     }
 }
 
