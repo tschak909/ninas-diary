@@ -18,6 +18,7 @@
 #include "bootsect.h"
 #include "num_entries.h"
 #include "entry.h"
+#include "blank.h"
 
 unsigned char* video_ptr;
 static unsigned char* dlist_ptr;
@@ -324,6 +325,7 @@ void ui_format(void)
       print_string(0,10,"Formatting Disk...");
       format_disk(1);
       bootsect_write(1);
+      blank_write(1);
     }
 }
 
