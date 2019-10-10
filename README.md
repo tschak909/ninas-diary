@@ -3,6 +3,8 @@ Nina's Diary
 
 A simple diary program I wrote for my daughter, Nina.
 
+![Alt Text](https://i.imgur.com/EkZpjz9.gif)
+
 Uses a direct to disk format, very simple:
 
 Sector 1 is a boot sector containing a boot logo.
