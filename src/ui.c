@@ -16,8 +16,8 @@
 #include "format.h"
 #include "bootsect.h"
 
+unsigned char* video_ptr;
 static unsigned char* dlist_ptr;
-static unsigned char* video_ptr;
 static unsigned short screen_memory;
 static unsigned char cx,cy,ox,oy;
 static unsigned char k;
