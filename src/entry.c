@@ -11,6 +11,8 @@
 #include <atari.h>
 #include "entry.h"
 
+#define FIRST_ENTRY_SECTOR_OFFSET 9
+
 extern unsigned char* video_ptr;
 
 /**
@@ -22,7 +24,7 @@ void entry_read(unsigned char entry)
   unsigned char i;
   unsigned short start_sector;
 
-  start_sector=entry<<3;
+  start_sector=entry<<3+FIRST_ENTRY_SECTOR_OFFSET;
   OS.dcb.ddevic=0x30; // Disk drive
   OS.dcb.dunit=1;
   OS.dcb.dcomnd='R'; // Read
@@ -47,7 +49,7 @@ void entry_write(unsigned char entry)
   unsigned char i;
   unsigned short start_sector;
 
-  start_sector=entry<<3;
+  start_sector=entry<<3+FIRST_ENTRY_SECTOR_OFFSET;
   OS.dcb.ddevic=0x30; // Disk drive
   OS.dcb.dunit=1;
   OS.dcb.dcomnd='W'; // Write
@@ -61,5 +63,4 @@ void entry_write(unsigned char entry)
       r.pc=0xE453;
       _sys(&r);
     }
-  
 }
