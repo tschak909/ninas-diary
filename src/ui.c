@@ -19,6 +19,10 @@
 #include "num_entries.h"
 #include "entry.h"
 #include "blank.h"
+#include "unicorn.h"
+
+#define DISPLAY_LIST 0x0600
+#define DISPLAY_MEMORY 0x3C00
 
 unsigned char* video_ptr;
 static unsigned char* dlist_ptr;
@@ -28,6 +32,100 @@ static unsigned char k;
 static unsigned char atari_key;
 
 extern unsigned char running;
+
+void dlist_title=
+  {
+   DL_BLK8,
+   DL_BLK8,
+   DL_BLK8,
+   DL_LMS(DL_CHR20x8x2),
+   DISPLAY_MEMORY,
+   DL_CHR20x8x2,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_LMS(DL_MAP160x2x4),
+   unicorn,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_MAP160x2x4,
+   DL_JVB,
+   0x600
+  };
+
+void dlist_entry=
+  {
+   DL_BLK8,
+   DL_BLK8,
+   DL_BLK8,
+   DL_LMS(DL_CHR20x8x2),
+   DISPLAY_MEMORY,
+
+   DL_CHR20x8x2,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   DL_CHR40x8x1,
+   
+   DL_JVB,
+   0x600
+  };
 
 #define SetChar(x,y,a) video_ptr[(x)+(y)*40]=(a);
 #define GetChar(x,y) video_ptr[(x)+(y)*40]
@@ -89,16 +187,19 @@ void print_string(unsigned char x,unsigned char y,char *s)
 void ui_setup(void)
 {
   POKE(559,0);
+
+  memcpy((void *)DISPLAY_LIST,&dlist_title,sizeof(dlist_title));
+  OS.sdlst=(void*)DISPLAY_LIST;
+  
   POKE(708,154);
   POKE(709,15);
   POKE(710,69);
   POKE(712,69);
   dlist_ptr=(unsigned char *)(PEEKW(560));
-  dlist_ptr[3]=0x46;
-  dlist_ptr[6]=0x06;
   screen_memory=PEEKW(560)+4;
   video_ptr=(unsigned char*)(PEEKW(screen_memory));
   charset_use();
+  
   POKE(559,34);
 }
 
@@ -181,6 +282,17 @@ void ui_entry(unsigned char e)
   unsigned char out[2];
   unsigned char save;
   unsigned char editing_done;
+
+  POKE(559,0);
+
+  memcpy((void *)DISPLAY_LIST,&dlist_entry,sizeof(dlist_entry));
+  OS.sdlst=(void*)DISPLAY_LIST;
+
+  dlist_ptr=(unsigned char *)(PEEKW(560));
+  screen_memory=PEEKW(560)+4;
+  video_ptr=(unsigned char*)(PEEKW(screen_memory));
+  
+  POKE(559,34);
   
  reload:
   
@@ -352,7 +464,7 @@ void ui_run(void)
       print_string(7,5,"\x80\xb3\xa5\xac\xa5\xa3\xb4\x80 to read last entry.");
       print_string(7,6,"\x80\xaf\xb0\xb4\xa9\xaf\xae\x80 to format new disk.");
       
-      print_string(8,20,"Love you so much. -Mom and Dad");
+      print_string(8,12,"Love you so much. -Mom and Dad");
 
       // Debounce the console keys.
       while (PEEK(0xD01F)!=0x07) {}     

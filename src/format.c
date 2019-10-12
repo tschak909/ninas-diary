@@ -13,7 +13,7 @@ void format_disk(unsigned char drive_num)
 {
   struct regs r;
   
-  OS.dcb.ddevic=0x30;
+  OS.dcb.ddevic=0x31;
   OS.dcb.dunit=drive_num;
   OS.dcb.dcomnd=0x22; // Format
   OS.dcb.dbuf=&buf;

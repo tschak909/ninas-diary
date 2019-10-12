@@ -23,7 +23,7 @@ void entry_read(unsigned char entry)
   unsigned short start_sector;
 
   start_sector=(entry<<3)+1;
-  OS.dcb.ddevic=0x30; // Disk drive
+  OS.dcb.ddevic=0x31; // Disk drive
   OS.dcb.dunit=1;
   OS.dcb.dcomnd='R'; // Read
   OS.dcb.dtimlo=0x0F; // Default timeout
@@ -49,7 +49,7 @@ void entry_write(unsigned char entry)
   unsigned short start_sector;
 
   start_sector=(entry<<3)+1;
-  OS.dcb.ddevic=0x30; // Disk drive
+  OS.dcb.ddevic=0x31; // Disk drive
   OS.dcb.dunit=1;
   OS.dcb.dcomnd='W'; // Write
   OS.dcb.dtimlo=0x0F; // Default timeout

@@ -23,7 +23,7 @@ void blank_write(unsigned char drive_num)
   memset(&buf,0,sizeof(buf));
   
   // Write boot sectors to disk
-  OS.dcb.ddevic=0x30; // Disk drive
+  OS.dcb.ddevic=0x31; // Disk drive
   OS.dcb.dunit=drive_num;
   OS.dcb.dcomnd='P'; // Write, no verify
   OS.dcb.dtimlo=0x0F; // Default timeout
