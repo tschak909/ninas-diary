@@ -316,7 +316,7 @@ void ui_entry(unsigned char e)
   print_string(0,21,"\x80\xB3\xA5\xAC\xA5\xA3\xB4\x80 \x1e\x1e page        \x80\xAF\xB0\xB4\xA9\xAF\xAE\x80 \x1f\x1f page");
   print_string(0,22,"\x80\xB3\xB4\xA1\xB2\xB4\x80\x80 save");
 
-  print_string(27,22,pages_free);
+  print_string(26,22,pages_free);
   print_string(30,22,"pages free");
   while (PEEK(0xD01F)!=7) {} // Debounce.
 
