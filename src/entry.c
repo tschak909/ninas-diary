@@ -28,7 +28,8 @@ void entry_read(unsigned char entry)
   OS.dcb.dcomnd='R'; // Read
   OS.dcb.dtimlo=0x0F; // Default timeout
   OS.dcb.dstats=0x40; // Read
-
+  OS.dcb.dbyt=128;
+  
   for (i=0;i<8;i++)
     {
       OS.dcb.daux=start_sector+i;     // Get first sector
@@ -53,7 +54,8 @@ void entry_write(unsigned char entry)
   OS.dcb.dcomnd='W'; // Write
   OS.dcb.dtimlo=0x0F; // Default timeout
   OS.dcb.dstats=0x80; // Write
-
+  OS.dcb.dbyt=128;
+  
   for (i=0;i<8;i++)
     {
       OS.dcb.daux=start_sector+i;     // Get first sector

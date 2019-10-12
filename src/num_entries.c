@@ -27,6 +27,7 @@ unsigned char num_entries_get(void)
   OS.dcb.dstats=0x40; // Read
   OS.dcb.daux=1;     // Get first sector
   OS.dcb.dbuf=&buf;  // Point to sector buffer
+  OS.dcb.dbyt=128;
   r.pc=0xE453;
   _sys(&r);
   

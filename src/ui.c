@@ -88,6 +88,7 @@ void print_string(unsigned char x,unsigned char y,char *s)
  */
 void ui_setup(void)
 {
+  POKE(559,0);
   POKE(708,154);
   POKE(709,15);
   POKE(710,69);
@@ -98,6 +99,7 @@ void ui_setup(void)
   screen_memory=PEEKW(560)+4;
   video_ptr=(unsigned char*)(PEEKW(screen_memory));
   charset_use();
+  POKE(559,34);
 }
 
 /**
@@ -196,7 +198,7 @@ void ui_entry(unsigned char e)
 
   set_cursor();
   
-  print_string(8,0,"PAGE  #");
+  print_string(8,0,"PAGE #");
   print_string(17,0,page);
   print_string(0,20,"\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12\x12");
   print_string(0,21,"\x80\xB3\xA5\xAC\xA5\xA3\xB4\x80 \x1e\x1e page        \x80\xAF\xB0\xB4\xA9\xAF\xAE\x80 \x1f\x1f page");
@@ -205,6 +207,8 @@ void ui_entry(unsigned char e)
   print_string(27,22,pages_free);
   print_string(30,22,"pages free");
   while (PEEK(0xD01F)!=7) {} // Debounce.
+
+  // Editing
   
   while (editing_done==0)
     {
@@ -234,6 +238,8 @@ void ui_entry(unsigned char e)
 	  ox=cx;
 	  oy=cy;
 
+	  POKE(OS.atract,0);
+	  
 	  if (cx>0)
 	    tcx=cx;
 	  
@@ -317,6 +323,7 @@ void ui_read_last(void)
 void ui_format(void)
 {
   print_string(0,8,"Are you sure? \xae");
+  POKE(764,255); // REALLY clear the keyboard.
   k=cgetc();
 
   if (k=='Y')
@@ -346,7 +353,9 @@ void ui_run(void)
       print_string(7,6,"\x80\xaf\xb0\xb4\xa9\xaf\xae\x80 to format new disk.");
       
       print_string(8,20,"Love you so much. -Mom and Dad");
-      
+
+      // Debounce the console keys.
+      while (PEEK(0xD01F)!=0x07) {}     
       while (PEEK(0xD01F)==0x07) {}
       
       switch (PEEK(0xD01F))

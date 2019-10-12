@@ -29,7 +29,7 @@ void blank_write(unsigned char drive_num)
   OS.dcb.dtimlo=0x0F; // Default timeout
   OS.dcb.dstats=0x80; // Write
 
-  for (i=2;i<721;i++)
+  for (i=2;i<1040;i++)
     {
       OS.dcb.daux=i;
       OS.dcb.dbuf=&buf;
