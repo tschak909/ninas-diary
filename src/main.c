@@ -11,7 +11,7 @@
 #include "ui.h"
 
 unsigned char running=1;
-unsigned char buf[128];
+unsigned char buf[256];
 
 void main(void)
 {

@@ -299,7 +299,7 @@ void ui_entry(unsigned char e)
   itoa(e,page,10);
   clear_screen();
   entry_read(e);
-  pages_free_int=90-num_entries_get();
+  pages_free_int=180-num_entries_get();
   itoa(pages_free_int,pages_free,10);
   save=0;
   editing_done=0;
@@ -340,8 +340,8 @@ void ui_entry(unsigned char e)
       else if (PEEK(0xD01F)==3)
 	{
 	  editing_done=1;
-	  if (e==89)
-	    e=89;
+	  if (e==180)
+	    e=180;
 	  else
 	    e++;
 	}

@@ -12,7 +12,7 @@
 #include <string.h>
 #include "bootsect.h"
 
-extern unsigned char buf[128];
+extern unsigned char buf[256];
 
 void blank_write(unsigned char drive_num)
 {
@@ -22,18 +22,18 @@ void blank_write(unsigned char drive_num)
   // nice blank sector
   memset(&buf,0,sizeof(buf));
   
-  // Write boot sectors to disk
+  // Write blank sectors to disk
   OS.dcb.ddevic=0x31; // Disk drive
   OS.dcb.dunit=drive_num;
   OS.dcb.dcomnd='P'; // Write, no verify
   OS.dcb.dtimlo=0x0F; // Default timeout
   OS.dcb.dstats=0x80; // Write
-  OS.dcb.dbyt=128;
   
-  for (i=2;i<1040;i++)
+  for (i=4;i<720;i++)
     {
       OS.dcb.daux=i;
       OS.dcb.dbuf=&buf;
+      OS.dsctln=256;
       r.pc=0xE453;
       _sys(&r);
     }

@@ -11,7 +11,7 @@
 #include <6502.h>
 #include "num_entries.h"
 
-extern unsigned char buf[128];
+extern unsigned char buf[256];
 
 /**
  * Get number of entries available on disk
@@ -19,6 +19,8 @@ extern unsigned char buf[128];
 unsigned char num_entries_get(void)
 {
   struct regs r;
+
+  OS.dsctln=128;
   
   OS.dcb.ddevic=0x31; // Disk drive
   OS.dcb.dunit=1;
@@ -27,7 +29,6 @@ unsigned char num_entries_get(void)
   OS.dcb.dstats=0x40; // Read
   OS.dcb.daux=1;     // Get first sector
   OS.dcb.dbuf=&buf;  // Point to sector buffer
-  OS.dcb.dbyt=128;
   r.pc=0xE453;
   _sys(&r);
   
@@ -41,6 +42,8 @@ void num_entries_put(unsigned char num_entries)
 {
   struct regs r;
 
+  OS.dsctln=128;
+  
   buf[127]=num_entries;
   OS.dcb.ddevic=0x31; // Disk drive
   OS.dcb.dunit=1;
@@ -49,7 +52,6 @@ void num_entries_put(unsigned char num_entries)
   OS.dcb.dstats=0x80; // Read
   OS.dcb.daux=1;     // Get first sector
   OS.dcb.dbuf=&buf;  // Point to sector buffer
-  OS.dcb.dbyt=128;
   r.pc=0xE453;
   _sys(&r);
 }
