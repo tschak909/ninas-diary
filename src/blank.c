@@ -28,7 +28,8 @@ void blank_write(unsigned char drive_num)
   OS.dcb.dcomnd='P'; // Write, no verify
   OS.dcb.dtimlo=0x0F; // Default timeout
   OS.dcb.dstats=0x80; // Write
-
+  OS.dcb.dbyt=128;
+  
   for (i=2;i<1040;i++)
     {
       OS.dcb.daux=i;

@@ -19,6 +19,8 @@ void format_disk(unsigned char drive_num)
   OS.dcb.dbuf=&buf;
   OS.dcb.dtimlo=0xFE;
   OS.dcb.dstats=0x40; // command will return something
+  OS.dcb.dbyt=128;
+  
   r.pc=0xE453; // DSKINV
   _sys(&r);
 }

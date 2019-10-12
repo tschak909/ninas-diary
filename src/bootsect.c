@@ -36,6 +36,7 @@ void bootsect_write(unsigned char drive_num)
   OS.dcb.daux=1;
   OS.dcb.dbuf=&bootsect;
   OS.dcb.dbyt=128;
+
   r.pc=0xE453;
   _sys(&r);  
 }
