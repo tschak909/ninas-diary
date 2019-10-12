@@ -276,9 +276,9 @@ void set_cursor_return()
  */
 void ui_entry(unsigned char e)
 {
-  unsigned char page[2];
+  unsigned char page[4];
   unsigned char pages_free_int;
-  unsigned char pages_free[2];
+  unsigned char pages_free[4];
   unsigned char out[2];
   unsigned char save;
   unsigned char editing_done;
