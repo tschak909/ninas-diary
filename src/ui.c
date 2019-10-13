@@ -20,9 +20,16 @@
 #include "entry.h"
 #include "blank.h"
 #include "unicorn.h"
+#include "config.h"
 
 #define DISPLAY_LIST 0x0600
 #define DISPLAY_MEMORY 0x3C00
+
+#define P712 84    // Background
+#define P708 170   // title/horse highlights 
+#define P709 15    // mode 2 text intensity
+#define P710 84    // mode 2 text background
+
 
 unsigned char* video_ptr;
 static unsigned char* dlist_ptr;
@@ -191,10 +198,10 @@ void ui_setup(void)
   memcpy((void *)DISPLAY_LIST,&dlist_title,sizeof(dlist_title));
   OS.sdlst=(void*)DISPLAY_LIST;
   
-  POKE(708,154);
-  POKE(709,15);
-  POKE(710,69);
-  POKE(712,69);
+  POKE(708,P708);
+  POKE(709,P709);
+  POKE(710,P710);
+  POKE(712,P712);
   dlist_ptr=(unsigned char *)(PEEKW(560));
   screen_memory=PEEKW(560)+4;
   video_ptr=(unsigned char*)(PEEKW(screen_memory));
@@ -274,10 +281,10 @@ void set_cursor_return()
 /**
  * Show/edit entry
  */
-void ui_entry(unsigned char e)
+void ui_entry(unsigned short e)
 {
   unsigned char page[4];
-  unsigned char pages_free_int;
+  unsigned short pages_free_int;
   unsigned char pages_free[4];
   unsigned char out[2];
   unsigned char save;
@@ -299,7 +306,7 @@ void ui_entry(unsigned char e)
   itoa(e,page,10);
   clear_screen();
   entry_read(e);
-  pages_free_int=180-num_entries_get();
+  pages_free_int=TOTAL_PAGES-num_entries_get();
   itoa(pages_free_int,pages_free,10);
   save=0;
   editing_done=0;
@@ -340,8 +347,8 @@ void ui_entry(unsigned char e)
       else if (PEEK(0xD01F)==3)
 	{
 	  editing_done=1;
-	  if (e==180)
-	    e=180;
+	  if (e==TOTAL_PAGES)
+	    e=TOTAL_PAGES;
 	  else
 	    e++;
 	}

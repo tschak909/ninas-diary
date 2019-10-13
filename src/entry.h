@@ -13,11 +13,11 @@
 /**
  * Read an entry
  */
-void entry_read(unsigned char entry);
+void entry_read(unsigned short entry);
 
 /**
  * Write an entry
  */
-void entry_write(unsigned char entry);
+void entry_write(unsigned short entry);
 
 #endif /* ENTRY_H */

@@ -13,11 +13,11 @@
 /**
  * Get number of entries available on disk
  */
-unsigned char num_entries_get(void);
+unsigned short num_entries_get(void);
 
 /**
  * Put entries back onto disk (use num_entries_get_first!) 
  */
-void num_entries_put(unsigned char num_entries);
+void num_entries_put(unsigned short num_entries);
 
 #endif /* NUM_ENTRIES_H */

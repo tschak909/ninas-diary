@@ -10,13 +10,14 @@
 #include <atari.h>
 #include <6502.h>
 #include "num_entries.h"
+#include "config.h"
 
-extern unsigned char buf[256];
+extern unsigned char buf[SECTOR_SIZE];
 
 /**
  * Get number of entries available on disk
  */
-unsigned char num_entries_get(void)
+unsigned short num_entries_get(void)
 {
   struct regs r;
 
@@ -38,7 +39,7 @@ unsigned char num_entries_get(void)
 /**
  * Put entries back onto disk (use num_entries_get_first!) 
  */
-void num_entries_put(unsigned char num_entries)
+void num_entries_put(unsigned short num_entries)
 {
   struct regs r;
 

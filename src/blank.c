@@ -11,8 +11,9 @@
 #include <atari.h>
 #include <string.h>
 #include "bootsect.h"
+#include "config.h"
 
-extern unsigned char buf[256];
+extern unsigned char buf[SECTOR_SIZE];
 
 void blank_write(unsigned char drive_num)
 {
@@ -29,11 +30,11 @@ void blank_write(unsigned char drive_num)
   OS.dcb.dtimlo=0x0F; // Default timeout
   OS.dcb.dstats=0x80; // Write
   
-  for (i=4;i<720;i++)
+  for (i=ENTRY_START_SECTOR;i<TOTAL_SECTORS+1;i++)
     {
       OS.dcb.daux=i;
       OS.dcb.dbuf=&buf;
-      OS.dsctln=256;
+      OS.dsctln=SECTOR_SIZE;
       r.pc=0xE453;
       _sys(&r);
     }
